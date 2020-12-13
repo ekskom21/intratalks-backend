@@ -16,6 +16,7 @@
     "license": "ISC",
     "dependencies": {
         "apollo-server": "^2.18.2",
+        "casual": "^1.6.2",
         "graphql": "^15.3.0",
         "graphql-scalars": "^1.4.0",
         "mongodb": "^3.6.2"

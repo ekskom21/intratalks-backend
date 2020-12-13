@@ -3,6 +3,8 @@ import { ApolloServer } from 'apollo-server';
 import { DateTimeMock, DateTimeResolver } from 'graphql-scalars';
 import { environment } from './API/configuration';
 
+import mocks from './mocks/mock';
+
 import resolvers from './resolvers/Query';
 
 import * as scalarTypeDef from './typedefs/Scalars.graphql';
@@ -18,6 +20,7 @@ import * as queryTypeDef from './typedefs/Query.graphql';
         mockEntireSchema: environment.apollo.mockEntireSchema,
         mocks: {
             DateTime: DateTimeMock,
+            ...mocks,
         },
     });
 
