@@ -47,11 +47,11 @@ type Query {
     companies: [Company]!
 
     "Get all events"
-    events: [Event]!
+    events: [EventWithCompany]!
 
     "Get a single event"
-    event(id: Int): Event
+    event(_id: ID!): EventWithCompany
 
     "Get a single company"
-    company(id: Int): Company
+    company(_id: ID!): Company
 }

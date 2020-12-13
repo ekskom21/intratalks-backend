@@ -26,6 +26,7 @@ export type Location = {
 
 export type Event = {
   __typename?: 'Event';
+  _id: Scalars['ID'];
   title: Scalars['String'];
   time: EventTime;
   location: Location;
@@ -34,6 +35,7 @@ export type Event = {
 
 export type CondensedCompany = {
   __typename?: 'CondensedCompany';
+  _id: Scalars['ID'];
   name: Scalars['String'];
   colors: ColorSet;
 };
@@ -52,6 +54,7 @@ export type ColorSet = {
 
 export type Company = {
   __typename?: 'Company';
+  _id: Scalars['ID'];
   events: Array<Maybe<Event>>;
   name: Scalars['String'];
   colors: ColorSet;
@@ -63,21 +66,21 @@ export type Query = {
   /** Get all companies */
   companies: Array<Maybe<Company>>;
   /** Get all events */
-  events: Array<Maybe<Event>>;
+  events: Array<Maybe<EventWithCompany>>;
   /** Get a single event */
-  event?: Maybe<Event>;
+  event?: Maybe<EventWithCompany>;
   /** Get a single company */
   company?: Maybe<Company>;
 };
 
 
 export type QueryEventArgs = {
-  id?: Maybe<Scalars['Int']>;
+  _id: Scalars['ID'];
 };
 
 
 export type QueryCompanyArgs = {
-  id?: Maybe<Scalars['Int']>;
+  _id: Scalars['ID'];
 };
 
 
@@ -163,12 +166,12 @@ export type ResolversTypes = {
   Float: ResolverTypeWrapper<Scalars['Float']>;
   String: ResolverTypeWrapper<Scalars['String']>;
   Event: ResolverTypeWrapper<Event>;
+  ID: ResolverTypeWrapper<Scalars['ID']>;
   CondensedCompany: ResolverTypeWrapper<CondensedCompany>;
   EventWithCompany: ResolverTypeWrapper<EventWithCompany>;
   ColorSet: ResolverTypeWrapper<ColorSet>;
   Company: ResolverTypeWrapper<Company>;
   Query: ResolverTypeWrapper<{}>;
-  Int: ResolverTypeWrapper<Scalars['Int']>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
 };
 
@@ -178,12 +181,12 @@ export type ResolversParentTypes = {
   Float: Scalars['Float'];
   String: Scalars['String'];
   Event: Event;
+  ID: Scalars['ID'];
   CondensedCompany: CondensedCompany;
   EventWithCompany: EventWithCompany;
   ColorSet: ColorSet;
   Company: Company;
   Query: {};
-  Int: Scalars['Int'];
   Boolean: Scalars['Boolean'];
 };
 
@@ -195,6 +198,7 @@ export type LocationResolvers<ContextType = any, ParentType extends ResolversPar
 };
 
 export type EventResolvers<ContextType = any, ParentType extends ResolversParentTypes['Event'] = ResolversParentTypes['Event']> = {
+  _id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   time?: Resolver<ResolversTypes['EventTime'], ParentType, ContextType>;
   location?: Resolver<ResolversTypes['Location'], ParentType, ContextType>;
@@ -203,6 +207,7 @@ export type EventResolvers<ContextType = any, ParentType extends ResolversParent
 };
 
 export type CondensedCompanyResolvers<ContextType = any, ParentType extends ResolversParentTypes['CondensedCompany'] = ResolversParentTypes['CondensedCompany']> = {
+  _id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   colors?: Resolver<ResolversTypes['ColorSet'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
@@ -221,6 +226,7 @@ export type ColorSetResolvers<ContextType = any, ParentType extends ResolversPar
 };
 
 export type CompanyResolvers<ContextType = any, ParentType extends ResolversParentTypes['Company'] = ResolversParentTypes['Company']> = {
+  _id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   events?: Resolver<Array<Maybe<ResolversTypes['Event']>>, ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   colors?: Resolver<ResolversTypes['ColorSet'], ParentType, ContextType>;
@@ -230,9 +236,9 @@ export type CompanyResolvers<ContextType = any, ParentType extends ResolversPare
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   companies?: Resolver<Array<Maybe<ResolversTypes['Company']>>, ParentType, ContextType>;
-  events?: Resolver<Array<Maybe<ResolversTypes['Event']>>, ParentType, ContextType>;
-  event?: Resolver<Maybe<ResolversTypes['Event']>, ParentType, ContextType, RequireFields<QueryEventArgs, never>>;
-  company?: Resolver<Maybe<ResolversTypes['Company']>, ParentType, ContextType, RequireFields<QueryCompanyArgs, never>>;
+  events?: Resolver<Array<Maybe<ResolversTypes['EventWithCompany']>>, ParentType, ContextType>;
+  event?: Resolver<Maybe<ResolversTypes['EventWithCompany']>, ParentType, ContextType, RequireFields<QueryEventArgs, '_id'>>;
+  company?: Resolver<Maybe<ResolversTypes['Company']>, ParentType, ContextType, RequireFields<QueryCompanyArgs, '_id'>>;
 };
 
 export type Resolvers<ContextType = any> = {
