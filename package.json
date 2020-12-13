@@ -1,0 +1,45 @@
+{
+    "name": "intratalksbackend",
+    "version": "1.0.0",
+    "description": "Backend for IntraTalks",
+    "main": "index.js",
+    "scripts": {
+        "build-dev": "webpack --config webpack.development.js",
+        "build-prod": "webpack --config webpack.production.js",
+        "start": "node dist/server",
+        "codegen": "graphql-codegen --config codegen.yml",
+        "lint": "yarn run eslint \"src/**/*\"",
+        "lint-fix": "yarn run eslint --fix \"src/**/*\""
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "apollo-server": "^2.18.2",
+        "graphql": "^15.3.0",
+        "graphql-scalars": "^1.4.0",
+        "mongodb": "^3.6.2"
+    },
+    "devDependencies": {
+        "@graphql-codegen/cli": "1.17.10",
+        "@graphql-codegen/introspection": "1.18.0",
+        "@graphql-codegen/typescript": "1.17.10",
+        "@graphql-codegen/typescript-resolvers": "1.17.10",
+        "@types/mongodb": "^3.5.27",
+        "@types/webpack-env": "^1.15.3",
+        "@typescript-eslint/eslint-plugin": "^4.5.0",
+        "@typescript-eslint/parser": "^4.5.0",
+        "clean-webpack-plugin": "^3.0.0",
+        "eslint": "^7.11.0",
+        "eslint-config-prettier": "^6.13.0",
+        "eslint-plugin-prettier": "^3.1.4",
+        "graphql-tag": "^2.11.0",
+        "prettier": "^2.1.2",
+        "ts-loader": "^8.0.4",
+        "typescript": "^4.0.3",
+        "webpack": "^4.44.2",
+        "webpack-cli": "^3.3.12",
+        "webpack-merge": "^5.1.4",
+        "webpack-node-externals": "^2.5.2"
+    }
+}

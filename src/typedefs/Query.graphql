@@ -1,0 +1,54 @@
+enum EventTime {
+    BREAKFAST
+    LUNCH
+    DINNER
+}
+
+type Location {
+    lat: Float!
+    lng: Float!
+    name: String!
+}
+
+type Event {
+    title: String!
+    time: EventTime!
+    location: Location!
+    description: String!
+}
+
+type CondensedCompany {
+    name: String!
+    colors: ColorSet!
+}
+
+type EventWithCompany {
+    event: Event!
+    company: CondensedCompany!
+}
+
+type ColorSet {
+    primary: String!
+    secondary: String!
+}
+
+type Company {
+    events: [Event]!
+    name: String!
+    colors: ColorSet!
+    description: String!
+}
+
+type Query {
+    "Get all companies"
+    companies: [Company]!
+
+    "Get all events"
+    events: [Event]!
+
+    "Get a single event"
+    event(id: Int): Event
+
+    "Get a single company"
+    company(id: Int): Company
+}
