@@ -16,7 +16,6 @@ export default {
         title: () => casual.title,
         description: () => casual.sentences(2),
     }),
-    CondensedCompany: () => ({ name: casual.company_name }),
     Company: () => ({
         name: () => casual.company_name,
         description: () => casual.sentences(4),

@@ -31,10 +31,18 @@ type Company {
     description: String!
 }
 
+type EventAndCompany {
+    event: Event!
+    company: Company!
+}
+
 type Query {
     "Get all companies. The companies contain events."
     companies: [Company]!
 
     "Get a single company. The company will have events."
-    company(_id: ID!): Company
+    company(_id: String!): Company
+
+    "Get a single event."
+    event(_id: String!): EventAndCompany
 }
