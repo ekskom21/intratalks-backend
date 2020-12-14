@@ -18,17 +18,6 @@ type Event {
     description: String!
 }
 
-type CondensedCompany {
-    _id: ID!
-    name: String!
-    colors: ColorSet!
-}
-
-type EventWithCompany {
-    event: Event!
-    company: CondensedCompany!
-}
-
 type ColorSet {
     primary: String!
     secondary: String!
@@ -43,15 +32,9 @@ type Company {
 }
 
 type Query {
-    "Get all companies"
+    "Get all companies. The companies contain events."
     companies: [Company]!
 
-    "Get all events"
-    events: [EventWithCompany]!
-
-    "Get a single event"
-    event(_id: ID!): EventWithCompany
-
-    "Get a single company"
+    "Get a single company. The company will have events."
     company(_id: ID!): Company
 }

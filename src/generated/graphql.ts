@@ -33,19 +33,6 @@ export type Event = {
   description: Scalars['String'];
 };
 
-export type CondensedCompany = {
-  __typename?: 'CondensedCompany';
-  _id: Scalars['ID'];
-  name: Scalars['String'];
-  colors: ColorSet;
-};
-
-export type EventWithCompany = {
-  __typename?: 'EventWithCompany';
-  event: Event;
-  company: CondensedCompany;
-};
-
 export type ColorSet = {
   __typename?: 'ColorSet';
   primary: Scalars['String'];
@@ -63,19 +50,10 @@ export type Company = {
 
 export type Query = {
   __typename?: 'Query';
-  /** Get all companies */
+  /** Get all companies. The companies contain events. */
   companies: Array<Maybe<Company>>;
-  /** Get all events */
-  events: Array<Maybe<EventWithCompany>>;
-  /** Get a single event */
-  event?: Maybe<EventWithCompany>;
-  /** Get a single company */
+  /** Get a single company. The company will have events. */
   company?: Maybe<Company>;
-};
-
-
-export type QueryEventArgs = {
-  _id: Scalars['ID'];
 };
 
 
@@ -167,8 +145,6 @@ export type ResolversTypes = {
   String: ResolverTypeWrapper<Scalars['String']>;
   Event: ResolverTypeWrapper<Event>;
   ID: ResolverTypeWrapper<Scalars['ID']>;
-  CondensedCompany: ResolverTypeWrapper<CondensedCompany>;
-  EventWithCompany: ResolverTypeWrapper<EventWithCompany>;
   ColorSet: ResolverTypeWrapper<ColorSet>;
   Company: ResolverTypeWrapper<Company>;
   Query: ResolverTypeWrapper<{}>;
@@ -182,8 +158,6 @@ export type ResolversParentTypes = {
   String: Scalars['String'];
   Event: Event;
   ID: Scalars['ID'];
-  CondensedCompany: CondensedCompany;
-  EventWithCompany: EventWithCompany;
   ColorSet: ColorSet;
   Company: Company;
   Query: {};
@@ -206,19 +180,6 @@ export type EventResolvers<ContextType = any, ParentType extends ResolversParent
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type CondensedCompanyResolvers<ContextType = any, ParentType extends ResolversParentTypes['CondensedCompany'] = ResolversParentTypes['CondensedCompany']> = {
-  _id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
-  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  colors?: Resolver<ResolversTypes['ColorSet'], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-};
-
-export type EventWithCompanyResolvers<ContextType = any, ParentType extends ResolversParentTypes['EventWithCompany'] = ResolversParentTypes['EventWithCompany']> = {
-  event?: Resolver<ResolversTypes['Event'], ParentType, ContextType>;
-  company?: Resolver<ResolversTypes['CondensedCompany'], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-};
-
 export type ColorSetResolvers<ContextType = any, ParentType extends ResolversParentTypes['ColorSet'] = ResolversParentTypes['ColorSet']> = {
   primary?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   secondary?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -236,16 +197,12 @@ export type CompanyResolvers<ContextType = any, ParentType extends ResolversPare
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   companies?: Resolver<Array<Maybe<ResolversTypes['Company']>>, ParentType, ContextType>;
-  events?: Resolver<Array<Maybe<ResolversTypes['EventWithCompany']>>, ParentType, ContextType>;
-  event?: Resolver<Maybe<ResolversTypes['EventWithCompany']>, ParentType, ContextType, RequireFields<QueryEventArgs, '_id'>>;
   company?: Resolver<Maybe<ResolversTypes['Company']>, ParentType, ContextType, RequireFields<QueryCompanyArgs, '_id'>>;
 };
 
 export type Resolvers<ContextType = any> = {
   Location?: LocationResolvers<ContextType>;
   Event?: EventResolvers<ContextType>;
-  CondensedCompany?: CondensedCompanyResolvers<ContextType>;
-  EventWithCompany?: EventWithCompanyResolvers<ContextType>;
   ColorSet?: ColorSetResolvers<ContextType>;
   Company?: CompanyResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
