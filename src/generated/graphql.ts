@@ -42,7 +42,7 @@ export type ColorSet = {
 export type Company = {
   __typename?: 'Company';
   _id: Scalars['ID'];
-  events: Array<Maybe<Event>>;
+  events: Array<Event>;
   name: Scalars['String'];
   colors: ColorSet;
   description: Scalars['String'];
@@ -188,7 +188,7 @@ export type ColorSetResolvers<ContextType = any, ParentType extends ResolversPar
 
 export type CompanyResolvers<ContextType = any, ParentType extends ResolversParentTypes['Company'] = ResolversParentTypes['Company']> = {
   _id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
-  events?: Resolver<Array<Maybe<ResolversTypes['Event']>>, ParentType, ContextType>;
+  events?: Resolver<Array<ResolversTypes['Event']>, ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   colors?: Resolver<ResolversTypes['ColorSet'], ParentType, ContextType>;
   description?: Resolver<ResolversTypes['String'], ParentType, ContextType>;

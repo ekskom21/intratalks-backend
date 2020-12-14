@@ -25,7 +25,7 @@ type ColorSet {
 
 type Company {
     _id: ID!
-    events: [Event]!
+    events: [Event!]!
     name: String!
     colors: ColorSet!
     description: String!
