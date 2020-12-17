@@ -20,4 +20,10 @@ export default {
         name: () => casual.company_name,
         description: () => casual.sentences(4),
     }),
+    Tokens: () => ({
+        access_token: () => 'test',
+        id_token: () => 'test',
+        refresh_token: () => 'test',
+        expires_in: 3600,
+    }),
 };

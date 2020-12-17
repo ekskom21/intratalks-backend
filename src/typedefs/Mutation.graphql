@@ -1,0 +1,11 @@
+type Tokens {
+    access_token: String!
+    id_token: String!
+    refresh_token: String!
+    expires_in: Int!
+}
+
+type Mutation {
+    "Get authentication tokens for OW4"
+    tokens(code: String!, is_refresh: Boolean): Tokens
+}
