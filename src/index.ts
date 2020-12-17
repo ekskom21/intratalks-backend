@@ -11,6 +11,9 @@ import mutationResolver from './resolvers/Mutation';
 import * as scalarTypeDef from './typedefs/Scalars.graphql';
 import * as queryTypeDef from './typedefs/Query.graphql';
 import * as mutationTypeDef from './typedefs/Mutation.graphql';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 (async () => {
     const server = new ApolloServer({
