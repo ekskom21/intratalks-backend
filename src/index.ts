@@ -19,6 +19,11 @@ import * as mutationTypeDef from './typedefs/Mutation.graphql';
         playground: environment.apollo.playground,
         // Allows codegen to get the query/schema types from the server instead of parsing static files.
         introspection: environment.apollo.introspection,
+        mockEntireSchema: environment.apollo.mockEntireSchema,
+        mocks: {
+            DateTime: DateTimeMock,
+            ...mocks,
+        },
     });
 
     server.listen(environment.port).then(({ url }) => console.log(`[Apollo Server] Ready at ${url}.`));
