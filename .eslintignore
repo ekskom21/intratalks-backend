@@ -1,3 +1,4 @@
 src/generated/*
 *.graphql
 .github/
+graphql.schema.json
