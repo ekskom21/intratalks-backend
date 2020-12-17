@@ -1,25 +1,51 @@
-import { Tokens } from '../generated/graphql';
+import { MutationRefreshArgs, MutationSignInArgs, Tokens } from '../generated/graphql';
 import axios from 'axios';
+import qs from 'query-string';
+import { envVariables } from '../index';
 
 export default {
     Mutation: {
-        tokens: async (_: undefined, args: { code: string; is_refresh: boolean }): Promise<Tokens> => {
+        signIn: async (_: undefined, args: MutationSignInArgs): Promise<Tokens> => {
             try {
-                const grant_type = args.is_refresh ? 'refresh_token' : 'authorization_code';
-                const code_type = args.is_refresh ? '&refresh_token=' : '&code=';
+                const body = {
+                    grant_type: 'authorization_code',
+                    code: args.code,
+                    client_id: envVariables.CLIENT_ID || '',
+                    client_secret: envVariables.CLIENT_SECRET || '',
+                    redirect_uri: envVariables.REDIRECT_URI || '',
+                };
 
                 const response = axios.post(
                     'https://online.ntnu.no/openid/token',
-                    'grant_type=' +
-                        grant_type +
-                        code_type +
-                        args.code +
-                        '&client_id=' +
-                        process.env.CLIENT_ID +
-                        '&client_secret=' +
-                        process.env.CLIENT_SECRET +
-                        '&redirect_uri=' +
-                        process.env.REDIRECT_URI,
+                    qs.stringify(body, { encode: false }),
+                    {
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                        },
+                    },
+                );
+
+                const data: Tokens = (await response).data;
+
+                return data;
+            } catch (e) {
+                throw new Error(e);
+            }
+        },
+
+        refresh: async (_: undefined, args: MutationRefreshArgs): Promise<Tokens> => {
+            try {
+                const body = {
+                    grant_type: 'refresh_token',
+                    refresh_token: args.refresh_token,
+                    client_id: envVariables.CLIENT_ID || '',
+                    client_secret: envVariables.CLIENT_SECRET || '',
+                    redirect_uri: envVariables.REDIRECT_URI || '',
+                };
+
+                const response = axios.post(
+                    'https://online.ntnu.no/openid/token',
+                    qs.stringify(body, { encode: false }),
                     {
                         headers: {
                             'Content-Type': 'application/x-www-form-urlencoded',

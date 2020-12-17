@@ -23,13 +23,18 @@ export type Tokens = {
 export type Mutation = {
   __typename?: 'Mutation';
   /** Get authentication tokens for OW4 */
-  tokens?: Maybe<Tokens>;
+  signIn?: Maybe<Tokens>;
+  refresh?: Maybe<Tokens>;
 };
 
 
-export type MutationTokensArgs = {
+export type MutationSignInArgs = {
   code: Scalars['String'];
-  is_refresh?: Maybe<Scalars['Boolean']>;
+};
+
+
+export type MutationRefreshArgs = {
+  refresh_token: Scalars['String'];
 };
 
 export enum EventTime {
@@ -178,7 +183,6 @@ export type ResolversTypes = {
   String: ResolverTypeWrapper<Scalars['String']>;
   Int: ResolverTypeWrapper<Scalars['Int']>;
   Mutation: ResolverTypeWrapper<{}>;
-  Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
   EventTime: EventTime;
   Location: ResolverTypeWrapper<Location>;
   Float: ResolverTypeWrapper<Scalars['Float']>;
@@ -189,6 +193,7 @@ export type ResolversTypes = {
   EventAndCompany: ResolverTypeWrapper<EventAndCompany>;
   Query: ResolverTypeWrapper<{}>;
   DateTime: ResolverTypeWrapper<Scalars['DateTime']>;
+  Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
@@ -197,7 +202,6 @@ export type ResolversParentTypes = {
   String: Scalars['String'];
   Int: Scalars['Int'];
   Mutation: {};
-  Boolean: Scalars['Boolean'];
   Location: Location;
   Float: Scalars['Float'];
   Event: Event;
@@ -207,6 +211,7 @@ export type ResolversParentTypes = {
   EventAndCompany: EventAndCompany;
   Query: {};
   DateTime: Scalars['DateTime'];
+  Boolean: Scalars['Boolean'];
 };
 
 export type TokensResolvers<ContextType = any, ParentType extends ResolversParentTypes['Tokens'] = ResolversParentTypes['Tokens']> = {
@@ -218,7 +223,8 @@ export type TokensResolvers<ContextType = any, ParentType extends ResolversParen
 };
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
-  tokens?: Resolver<Maybe<ResolversTypes['Tokens']>, ParentType, ContextType, RequireFields<MutationTokensArgs, 'code'>>;
+  signIn?: Resolver<Maybe<ResolversTypes['Tokens']>, ParentType, ContextType, RequireFields<MutationSignInArgs, 'code'>>;
+  refresh?: Resolver<Maybe<ResolversTypes['Tokens']>, ParentType, ContextType, RequireFields<MutationRefreshArgs, 'refresh_token'>>;
 };
 
 export type LocationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Location'] = ResolversParentTypes['Location']> = {

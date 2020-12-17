@@ -41,3 +41,5 @@ dotenv.config();
         });
     }
 })();
+
+export const secrets = process.env;

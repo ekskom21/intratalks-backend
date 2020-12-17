@@ -7,5 +7,6 @@ type Tokens {
 
 type Mutation {
     "Get authentication tokens for OW4"
-    tokens(code: String!, is_refresh: Boolean): Tokens
+    signIn(code: String!): Tokens
+    refresh(refresh_token: String!): Tokens
 }

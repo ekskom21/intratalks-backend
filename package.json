@@ -21,7 +21,8 @@
         "dotenv": "^8.2.0",
         "graphql": "^15.3.0",
         "graphql-scalars": "^1.4.0",
-        "mongodb": "^3.6.2"
+        "mongodb": "^3.6.2",
+        "query-string": "^6.13.7"
     },
     "devDependencies": {
         "@graphql-codegen/cli": "1.17.10",
