@@ -42,4 +42,4 @@ dotenv.config();
     }
 })();
 
-export const secrets = process.env;
+export const envVariables = process.env;
