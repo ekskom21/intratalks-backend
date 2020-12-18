@@ -5,7 +5,7 @@ import { envVariables } from '../index';
 
 export default {
     Mutation: {
-        signIn: async (_: undefined, args: MutationSignInArgs): Promise<Tokens> => {
+        signIn: async (_: unknown, args: MutationSignInArgs): Promise<Tokens> => {
             try {
                 const body = {
                     grant_type: 'authorization_code',
@@ -25,15 +25,13 @@ export default {
                     },
                 );
 
-                const data: Tokens = (await response).data;
-
-                return data;
+                return (await response).data as Tokens;
             } catch (e) {
                 throw new Error(e);
             }
         },
 
-        refresh: async (_: undefined, args: MutationRefreshArgs): Promise<Tokens> => {
+        refresh: async (_: unknown, args: MutationRefreshArgs): Promise<Tokens> => {
             try {
                 const body = {
                     grant_type: 'refresh_token',
@@ -53,9 +51,7 @@ export default {
                     },
                 );
 
-                const data: Tokens = (await response).data;
-
-                return data;
+                return (await response).data as Tokens;
             } catch (e) {
                 throw new Error(e);
             }
