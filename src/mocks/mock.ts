@@ -1,6 +1,9 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import casual from 'casual';
+import crypto from 'crypto';
 const gradientColors = ['red-400', 'red-500', 'purple-400', 'purple-500', 'yellow-400', 'yellow-500'];
+const randomIDToken =
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkVrc29tIiwiaXNzIjoiaHR0cHM6Ly9zLm50bnUubm8vYWJha3VzIn0.ZGGKoEtr23GK83OHoVMI7RjWE41a3dhQUUXoAKMQuYo';
 
 export default {
     ColorSet: () => ({
@@ -19,5 +22,11 @@ export default {
     Company: () => ({
         name: () => casual.company_name,
         description: () => casual.sentences(4),
+    }),
+    Tokens: () => ({
+        access_token: () => crypto.createHash('md5').update(casual.random.toString()).digest('hex'),
+        id_token: () => randomIDToken,
+        refresh_token: () => crypto.createHash('md5').update(casual.random.toString()).digest('hex'),
+        expires_in: 3600,
     }),
 };

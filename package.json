@@ -16,7 +16,10 @@
     "license": "ISC",
     "dependencies": {
         "apollo-server": "^2.18.2",
+        "axios": "^0.21.0",
         "casual": "^1.6.2",
+        "dotenv": "^8.2.0",
+        "form-data": "^3.0.0",
         "graphql": "^15.3.0",
         "graphql-scalars": "^1.4.0",
         "mongodb": "^3.6.2"
