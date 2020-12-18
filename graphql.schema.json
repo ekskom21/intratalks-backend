@@ -137,7 +137,7 @@
           },
           {
             "name": "refresh",
-            "description": null,
+            "description": "Refresh your authentication token",
             "args": [
               {
                 "name": "refresh_token",

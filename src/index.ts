@@ -41,5 +41,3 @@ dotenv.config();
         });
     }
 })();
-
-export const envVariables = process.env;

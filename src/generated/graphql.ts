@@ -24,6 +24,7 @@ export type Mutation = {
   __typename?: 'Mutation';
   /** Get authentication tokens for OW4 */
   signIn?: Maybe<Tokens>;
+  /** Refresh your authentication token */
   refresh?: Maybe<Tokens>;
 };
 
