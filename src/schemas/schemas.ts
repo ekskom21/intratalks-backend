@@ -1,4 +1,3 @@
-import { Location } from 'graphql';
 import mongoose, { Schema } from 'mongoose';
 import { ColorSet, Company, Event, EventAndCompany, EventTime, Location as LocationType } from '../generated/graphql';
 
