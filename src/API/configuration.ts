@@ -1,4 +1,4 @@
-const CONNECTION_URL = `mongodb+srv://admin:hemmelig@cluster0.xbqon.mongodb.net/sample_airbnb?retryWrites=true&w=majority`;
+const CONNECTION_URL: string = process.env.MONGODB_URL || '';
 
 const defaultPort = 4000;
 
@@ -22,7 +22,7 @@ export const environment: Environment = {
         mockEntireSchema: process.env.NODE_ENV === 'development',
     },
     mongoDb: {
-        databaseName: 'sample_airbnb',
+        databaseName: 'techtalks',
         url: CONNECTION_URL,
     },
     port: process.env.PORT || defaultPort,
