@@ -1,4 +1,4 @@
-const CONNECTION_URL: string = process.env.MONGODB_URL || '';
+const CONNECTION_URL = process.env.MONGODB_URL || '';
 
 const defaultPort = 4000;
 
