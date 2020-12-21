@@ -1,4 +1,4 @@
-const CONNECTION_URL = process.env.MONGODB_URL || '';
+const CONNECTION_URL = process.env.MONGODB_URL;
 
 const defaultPort = 4000;
 
@@ -23,7 +23,7 @@ export const environment: Environment = {
     },
     mongoDb: {
         databaseName: 'techtalks',
-        url: CONNECTION_URL,
+        url: CONNECTION_URL || '',
     },
     port: process.env.PORT || defaultPort,
 };
