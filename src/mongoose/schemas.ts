@@ -1,9 +1,10 @@
+import { Decimal128 } from 'mongodb';
 import mongoose, { Schema } from 'mongoose';
 import { ColorSet, Company, Event, EventAndCompany, EventTime, Location as LocationType } from '../generated/graphql';
 
 export const LocationSchema: Schema<LocationType> = new mongoose.Schema({
-    lat: Float32Array,
-    lng: Float32Array,
+    lat: Decimal128,
+    lng: Decimal128,
     name: String,
 });
 
