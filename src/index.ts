@@ -3,7 +3,7 @@ dotenv.config();
 
 import { ApolloServer } from 'apollo-server';
 
-import db from './API/mongo';
+import db from './API/db';
 
 import { DateTimeMock, DateTimeResolver } from 'graphql-scalars';
 import { environment } from './API/configuration';
@@ -25,11 +25,11 @@ import * as mutationTypeDef from './typedefs/Mutation.graphql';
         context: db,
         // Allows codegen to get the query/schema types from the server instead of parsing static files.
         introspection: environment.apollo.introspection,
-        /*mockEntireSchema: environment.apollo.mockEntireSchema,
+        mockEntireSchema: environment.apollo.mockEntireSchema,
         mocks: {
             DateTime: DateTimeMock,
             ...mocks,
-        },*/
+        },
     });
 
     server.listen(environment.port).then(({ url }) => console.log(`[Apollo Server] Ready at ${url}.`));
