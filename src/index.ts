@@ -41,6 +41,7 @@ import * as mutationTypeDef from './typedefs/Mutation.graphql';
         module.hot.dispose(() => {
             console.log('[HMR] Module disposed.');
             server.stop();
+            db.close();
         });
     }
 })();
