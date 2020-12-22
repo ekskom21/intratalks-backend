@@ -20,7 +20,7 @@ export const environment: Environment = {
     apollo: {
         playground: process.env.NODE_ENV === 'development',
         introspection: process.env.NODE_ENV === 'development',
-        mockEntireSchema: process.env.NODE_ENV === 'development' && SHOULD_MOCK,
+        mockEntireSchema: process.env.NODE_ENV === 'development' && MOCK,
     },
     mongoDb: {
         databaseName: 'techtalks',
