@@ -1,5 +1,5 @@
 const CONNECTION_URL = process.env.MONGODB_URL;
-const SHOULD_MOCK = process.env.SHOULD_MOCK !== 'false';
+const MOCK = process.env.MOCK !== 'false';
 
 const defaultPort = 4000;
 
