@@ -1,25 +1,21 @@
-import mongoose, { Connection } from 'mongoose';
+import mongoose from 'mongoose';
 import { environment } from './configuration';
 
 // Refer to overview of connection events:
 // https://mongoosejs.com/docs/connections.html#connection-events
 
-export default async (): Promise<Connection> => {
+export default async (): Promise<void> => {
     try {
-        const { connection } = await mongoose.connect(environment.mongoDb.url, {
+        mongoose.connection.on('connecting', () => console.log('[Mongoose] Establishing connection to MongoDB...'));
+        mongoose.connection.on('open', () => console.log('[Mongoose] Connection complete.'));
+        mongoose.connection.on('error', (e) => console.error(`[Mongoose] Error occurred on connection: ${e}`));
+        mongoose.connection.on('disconnecting', () => console.log('[Mongoose] Explicitly requested Connection#close.'));
+        mongoose.connection.on('disconnected', () => console.log('[Mongoose] Lost connection to MongoDB server.'));
+
+        await mongoose.connect(environment.mongoDb.url, {
             useNewUrlParser: true,
             useUnifiedTopology: true,
         });
-
-        console.log('[Mongoose] Connection complete.');
-
-        connection.on('error', (e) => console.error(`[Mongoose] Error occurred on connection: ${e}`));
-
-        connection.on('disconnecting', () => console.log('[Mongoose] Explicitly requested Connection#close.'));
-
-        connection.on('disconnected', () => console.log('[Mongoose] Lost connection to MongoDB server.'));
-
-        return connection;
     } catch (e) {
         console.error(`[Mongoose] Error while connecting: ${e}`);
         throw e;
