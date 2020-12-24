@@ -1,4 +1,3 @@
-import { Decimal128 } from 'mongodb';
 import mongoose, { Schema } from 'mongoose';
 import { ColorSet, Company, Event as EventT, EventTime, Location as LocationT } from '../generated/graphql';
 
@@ -10,7 +9,7 @@ export const locationSchema: Schema<LocationT> = new mongoose.Schema({
 
 export const eventSchema: Schema<EventT> = new mongoose.Schema({
     title: String,
-    time: EventTime,
+    time: { type: String, enum: ['BREAKFAST', 'LUNCH', 'DINNER'] as EventTime[] },
     location: locationSchema,
     description: String,
 });
