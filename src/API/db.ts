@@ -1,17 +1,27 @@
-import mongoose from 'mongoose';
+import mongoose, { Connection } from 'mongoose';
 import { environment } from './configuration';
 
-mongoose.connect(environment.mongoDb.url, { useNewUrlParser: true, useUnifiedTopology: true });
+// Refer to overview of connection events:
+// https://mongoosejs.com/docs/connections.html#connection-events
 
-const db = mongoose.connection;
-db.on('error', () => {
-    console.error('connection error:');
-});
-db.once('disconnecting', () => {
-    console.log('[MongoDB] Disconnecting!');
-});
-db.once('open', () => {
-    console.log('[MongoDB] Connected!');
-});
+export default async (): Promise<Connection> => {
+    try {
+        const { connection } = await mongoose.connect(environment.mongoDb.url, {
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
+        });
 
-export default db;
+        console.log('[Mongoose] Connection complete.');
+
+        connection.on('error', (e) => console.error(`[Mongoose] Error occurred on connection: ${e}`));
+
+        connection.on('disconnecting', () => console.log('[Mongoose] Explicitly requested Connection#close.'));
+
+        connection.on('disconnected', () => console.log('[Mongoose] Lost connection to MongoDB server.'));
+
+        return connection;
+    } catch (e) {
+        console.error(`[Mongoose] Error while connecting: ${e}`);
+        throw e;
+    }
+};

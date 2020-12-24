@@ -3,7 +3,7 @@ dotenv.config();
 
 import { ApolloServer } from 'apollo-server';
 
-import db from './API/db';
+import configureDb from './API/db';
 
 import { DateTimeMock, DateTimeResolver } from 'graphql-scalars';
 import { environment } from './API/configuration';
@@ -16,8 +16,16 @@ import mutationResolver from './resolvers/Mutation';
 import * as scalarTypeDef from './typedefs/Scalars.graphql';
 import * as queryTypeDef from './typedefs/Query.graphql';
 import * as mutationTypeDef from './typedefs/Mutation.graphql';
+import { Connection } from 'mongoose';
 
 (async () => {
+    let db: Connection | undefined;
+
+    // Only spin up MongoDB connection if we aren't mocking.
+    if (process.env.MOCK === 'false') {
+        db = await configureDb();
+    }
+
     const server = new ApolloServer({
         resolvers: { ...queryResolver, ...mutationResolver, DateTime: DateTimeResolver },
         typeDefs: [scalarTypeDef, queryTypeDef, mutationTypeDef],
@@ -41,7 +49,7 @@ import * as mutationTypeDef from './typedefs/Mutation.graphql';
         module.hot.dispose(() => {
             console.log('[HMR] Module disposed.');
             server.stop();
-            db.close();
+            db?.close();
         });
     }
 })();
