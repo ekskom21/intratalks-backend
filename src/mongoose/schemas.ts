@@ -3,8 +3,8 @@ import mongoose, { Schema } from 'mongoose';
 import { ColorSet, Company, Event as EventT, EventTime, Location as LocationT } from '../generated/graphql';
 
 export const locationSchema: Schema<LocationT> = new mongoose.Schema({
-    lat: Decimal128,
-    lng: Decimal128,
+    lat: Number,
+    lng: Number,
     name: String,
 });
 
