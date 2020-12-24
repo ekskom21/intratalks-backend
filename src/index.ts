@@ -16,29 +16,32 @@ import mutationResolver from './resolvers/Mutation';
 import * as scalarTypeDef from './typedefs/Scalars.graphql';
 import * as queryTypeDef from './typedefs/Query.graphql';
 import * as mutationTypeDef from './typedefs/Mutation.graphql';
-import { Connection } from 'mongoose';
+import mongoose from 'mongoose';
 
 (async () => {
-    let db: Connection | undefined;
-
-    // Only spin up MongoDB connection if we aren't mocking.
-    if (process.env.MOCK === 'false') {
-        db = await configureDb();
+    // Only spin up MongoDB connection if we aren't mocking and it's disconnected.
+    if (process.env.MOCK === 'false' && mongoose.connection.readyState === 0) {
+        await configureDb();
     }
 
     const server = new ApolloServer({
         resolvers: { ...queryResolver, ...mutationResolver, DateTime: DateTimeResolver },
         typeDefs: [scalarTypeDef, queryTypeDef, mutationTypeDef],
         playground: environment.apollo.playground,
-        context: db,
+        context: mongoose.connection,
         // Allows codegen to get the query/schema types from the server instead of parsing static files.
         introspection: environment.apollo.introspection,
         mockEntireSchema: environment.apollo.mockEntireSchema,
-        mocks: {
-            DateTime: DateTimeMock,
-            ...mocks,
-        },
+        // If we don't want to mock, don't mock.
+        mocks: environment.apollo.mockEntireSchema
+            ? {
+                  DateTime: DateTimeMock,
+                  ...mocks,
+              }
+            : false,
     });
+
+    console.log('[Apollo Server] Starting server...');
 
     server.listen(environment.port).then(({ url }) => console.log(`[Apollo Server] Ready at ${url}.`));
 
@@ -46,10 +49,9 @@ import { Connection } from 'mongoose';
     if (module.hot) {
         module.hot.accept();
 
-        module.hot.dispose(() => {
+        module.hot.dispose(async () => {
             console.log('[HMR] Module disposed.');
             server.stop();
-            db?.close();
         });
     }
 })();
