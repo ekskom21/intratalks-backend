@@ -1,4 +1,5 @@
-const CONNECTION_URL = `mongodb+srv://admin:hemmelig@cluster0.xbqon.mongodb.net/sample_airbnb?retryWrites=true&w=majority`;
+const CONNECTION_URL = process.env.MONGODB_URL;
+const MOCK = process.env.MOCK !== 'false';
 
 const defaultPort = 4000;
 
@@ -19,11 +20,11 @@ export const environment: Environment = {
     apollo: {
         playground: process.env.NODE_ENV === 'development',
         introspection: process.env.NODE_ENV === 'development',
-        mockEntireSchema: process.env.NODE_ENV === 'development',
+        mockEntireSchema: process.env.NODE_ENV === 'development' && MOCK,
     },
     mongoDb: {
-        databaseName: 'sample_airbnb',
-        url: CONNECTION_URL,
+        databaseName: 'techtalks',
+        url: CONNECTION_URL || '',
     },
     port: process.env.PORT || defaultPort,
 };

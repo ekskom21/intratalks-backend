@@ -22,7 +22,8 @@
         "form-data": "^3.0.0",
         "graphql": "^15.3.0",
         "graphql-scalars": "^1.4.0",
-        "mongodb": "^3.6.2"
+        "mongodb": "^3.6.2",
+        "mongoose": "^5.11.8"
     },
     "devDependencies": {
         "@graphql-codegen/cli": "1.17.10",
