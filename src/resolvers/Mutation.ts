@@ -53,8 +53,8 @@ export default {
 
         userRegistered: async (_: unknown, args: MutationUserRegisteredArgs): Promise<UserRegistration> => {
             try {
-                // This is just a random ID of another event, this will be changed when we post TT to OW.
-                const eventId = 1445;
+                // You can set the event ID in the .env file.
+                const eventId = process.env.EVENT_ID;
 
                 const response = axios.get(`https://online.ntnu.no/api/v1/event/attendance-events/${eventId}/`, {
                     headers: {
