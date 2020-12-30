@@ -56,7 +56,7 @@ export default {
                 // This is just a random ID of another event, this will be changed when we post TT to OW.
                 const eventId = 1445;
 
-                const response = axios.get('https://online.ntnu.no/api/v1/event/attendance-events/' + eventId + '/', {
+                const response = axios.get(`https://online.ntnu.no/api/v1/event/attendance-events/${eventId}/`, {
                     headers: {
                         Authorization: 'Bearer ' + args.access_token,
                         Accept: 'application/json',
@@ -65,11 +65,11 @@ export default {
 
                 const data: AttendanceEventType = (await response).data;
 
-                if (data.is_attendee && !data.is_on_waitlist) {
-                    return { registration_state: RegistrationState.Registered };
-                } else {
+                if (data.is_on_waitlist) {
                     return { registration_state: RegistrationState.WaitList };
                 }
+
+                return { registration_state: RegistrationState.Registered };
             } catch (e) {
                 // The request will return a 404 if the user is not on the attendence list.
                 return { registration_state: RegistrationState.NotRegistered };
