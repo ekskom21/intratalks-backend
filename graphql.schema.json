@@ -39,29 +39,6 @@
       },
       {
         "kind": "OBJECT",
-        "name": "UserRegistration",
-        "description": null,
-        "fields": [
-          {
-            "name": "registration_state",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "ENUM",
-              "name": "RegistrationState",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          }
-        ],
-        "inputFields": null,
-        "interfaces": [],
-        "enumValues": null,
-        "possibleTypes": null
-      },
-      {
-        "kind": "OBJECT",
         "name": "Tokens",
         "description": null,
         "fields": [
@@ -234,9 +211,13 @@
               }
             ],
             "type": {
-              "kind": "OBJECT",
-              "name": "UserRegistration",
-              "ofType": null
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "ENUM",
+                "name": "RegistrationState",
+                "ofType": null
+              }
             },
             "isDeprecated": false,
             "deprecationReason": null

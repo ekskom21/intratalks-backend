@@ -4,7 +4,6 @@ import {
     MutationUserRegisteredArgs,
     Tokens,
     RegistrationState,
-    UserRegistration,
 } from '../generated/graphql';
 import axios from 'axios';
 import FormData from 'form-data';
@@ -51,7 +50,7 @@ export default {
             return data;
         },
 
-        userRegistered: async (_: unknown, args: MutationUserRegisteredArgs): Promise<UserRegistration> => {
+        userRegistered: async (_: unknown, args: MutationUserRegisteredArgs): Promise<RegistrationState> => {
             try {
                 // You can set the event ID in the .env file.
                 const eventId = process.env.EVENT_ID;
@@ -66,13 +65,13 @@ export default {
                 const data: AttendanceEventType = (await response).data;
 
                 if (data.is_on_waitlist) {
-                    return { registration_state: RegistrationState.WaitList };
+                    return RegistrationState.WaitList;
                 }
 
-                return { registration_state: RegistrationState.Registered };
+                return RegistrationState.Registered;
             } catch (e) {
                 // The request will return a 404 if the user is not on the attendence list.
-                return { registration_state: RegistrationState.NotRegistered };
+                return RegistrationState.NotRegistered;
             }
         },
     },

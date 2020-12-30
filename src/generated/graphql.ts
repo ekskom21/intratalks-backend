@@ -18,11 +18,6 @@ export enum RegistrationState {
   NotRegistered = 'NOT_REGISTERED'
 }
 
-export type UserRegistration = {
-  __typename?: 'UserRegistration';
-  registration_state?: Maybe<RegistrationState>;
-};
-
 export type Tokens = {
   __typename?: 'Tokens';
   access_token: Scalars['String'];
@@ -38,7 +33,7 @@ export type Mutation = {
   /** Refresh your authentication token */
   refresh?: Maybe<Tokens>;
   /** Check registration state of a user */
-  userRegistered?: Maybe<UserRegistration>;
+  userRegistered: RegistrationState;
 };
 
 
@@ -199,7 +194,6 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
   RegistrationState: RegistrationState;
-  UserRegistration: ResolverTypeWrapper<UserRegistration>;
   Tokens: ResolverTypeWrapper<Tokens>;
   String: ResolverTypeWrapper<Scalars['String']>;
   Int: ResolverTypeWrapper<Scalars['Int']>;
@@ -219,7 +213,6 @@ export type ResolversTypes = {
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
-  UserRegistration: UserRegistration;
   Tokens: Tokens;
   String: Scalars['String'];
   Int: Scalars['Int'];
@@ -236,11 +229,6 @@ export type ResolversParentTypes = {
   Boolean: Scalars['Boolean'];
 };
 
-export type UserRegistrationResolvers<ContextType = any, ParentType extends ResolversParentTypes['UserRegistration'] = ResolversParentTypes['UserRegistration']> = {
-  registration_state?: Resolver<Maybe<ResolversTypes['RegistrationState']>, ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-};
-
 export type TokensResolvers<ContextType = any, ParentType extends ResolversParentTypes['Tokens'] = ResolversParentTypes['Tokens']> = {
   access_token?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id_token?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -252,7 +240,7 @@ export type TokensResolvers<ContextType = any, ParentType extends ResolversParen
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   signIn?: Resolver<Maybe<ResolversTypes['Tokens']>, ParentType, ContextType, RequireFields<MutationSignInArgs, 'code'>>;
   refresh?: Resolver<Maybe<ResolversTypes['Tokens']>, ParentType, ContextType, RequireFields<MutationRefreshArgs, 'refresh_token'>>;
-  userRegistered?: Resolver<Maybe<ResolversTypes['UserRegistration']>, ParentType, ContextType, RequireFields<MutationUserRegisteredArgs, 'access_token'>>;
+  userRegistered?: Resolver<ResolversTypes['RegistrationState'], ParentType, ContextType, RequireFields<MutationUserRegisteredArgs, 'access_token'>>;
 };
 
 export type LocationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Location'] = ResolversParentTypes['Location']> = {
@@ -303,7 +291,6 @@ export interface DateTimeScalarConfig extends GraphQLScalarTypeConfig<ResolversT
 }
 
 export type Resolvers<ContextType = any> = {
-  UserRegistration?: UserRegistrationResolvers<ContextType>;
   Tokens?: TokensResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   Location?: LocationResolvers<ContextType>;
