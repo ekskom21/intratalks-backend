@@ -4,10 +4,6 @@ enum RegistrationState {
     NOT_REGISTERED
 }
 
-type UserRegistration {
-    registration_state: RegistrationState
-}
-
 type Tokens {
     access_token: String!
     id_token: String!
@@ -23,5 +19,5 @@ type Mutation {
     refresh(refresh_token: String!): Tokens
 
     "Check registration state of a user"
-    userRegistered(access_token: String!): UserRegistration
+    userRegistered(access_token: String!): RegistrationState!
 }
