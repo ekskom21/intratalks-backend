@@ -10,4 +10,6 @@ type Mutation {
     signIn(code: String!): Tokens
     "Refresh your authentication token"
     refresh(refresh_token: String!): Tokens
+    "Verify a JWT token, and return the associated user ID"
+    getUserID(token: String!): String
 }
