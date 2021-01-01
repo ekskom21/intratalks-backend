@@ -46,7 +46,7 @@ export default {
 
         getUserID: async (_: unknown, args: MutationGetUserIdArgs): Promise<string> => {
             const cert = process.env.PUBLIC_KEY || '';
-            console.log(cert);
+
             try {
                 const decoded = jwt.verify(args.token, cert);
                 return (decoded as TokenPayloadType).sub;
