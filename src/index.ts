@@ -33,12 +33,10 @@ import mongoose from 'mongoose';
         introspection: environment.apollo.introspection,
         mockEntireSchema: environment.apollo.mockEntireSchema,
         // If we don't want to mock, don't mock.
-        mocks: environment.apollo.mockEntireSchema
-            ? {
-                  DateTime: DateTimeMock,
-                  ...mocks,
-              }
-            : false,
+        mocks: environment.apollo.mockEntireSchema && {
+            DateTime: DateTimeMock,
+            ...mocks,
+        },
     });
 
     console.log('[Apollo Server] Starting server...');
