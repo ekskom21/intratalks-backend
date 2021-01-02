@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import { MockList } from 'apollo-server';
 import casual from 'casual';
 import crypto from 'crypto';
 const gradientColors = ['red-400', 'red-500', 'purple-400', 'purple-500', 'yellow-400', 'yellow-500'];
@@ -22,11 +23,16 @@ export default {
     Company: () => ({
         name: () => casual.company_name,
         description: () => casual.sentences(4),
+        events: () => new MockList([1, 3]),
     }),
     Tokens: () => ({
         access_token: () => crypto.createHash('md5').update(casual.random.toString()).digest('hex'),
         id_token: () => randomIDToken,
         refresh_token: () => crypto.createHash('md5').update(casual.random.toString()).digest('hex'),
         expires_in: 3600,
+    }),
+    Query: () => ({
+        companies: () => new MockList([7, 9]),
+        events: () => new MockList(25),
     }),
 };
