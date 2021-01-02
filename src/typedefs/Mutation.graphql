@@ -19,5 +19,5 @@ type Mutation {
     refresh(refresh_token: String!): Tokens
 
     "Register interest for a specific event"
-    registerInterest(event_id: ID!): Event!
+    registerInterest(event_id: String!): Event!
 }
