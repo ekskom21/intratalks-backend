@@ -4,7 +4,6 @@ import {
     MutationRegisterInterestArgs,
     Tokens,
     EventTime,
-    Event,
 } from '../generated/graphql';
 import axios from 'axios';
 import FormData from 'form-data';
