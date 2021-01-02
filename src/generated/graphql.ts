@@ -26,14 +26,6 @@ export type Tokens = {
   expires_in: Scalars['Int'];
 };
 
-export type UserInterest = {
-  __typename?: 'UserInterest';
-  user_id: Scalars['String'];
-  breakfast?: Maybe<Event>;
-  lunch?: Maybe<Event>;
-  dinner?: Maybe<Event>;
-};
-
 export type Mutation = {
   __typename?: 'Mutation';
   /** Get authentication tokens for OW4 */
@@ -97,6 +89,14 @@ export type Company = {
   description: Scalars['String'];
 };
 
+export type UserInterest = {
+  __typename?: 'UserInterest';
+  user_id: Scalars['String'];
+  breakfast?: Maybe<Scalars['ID']>;
+  lunch?: Maybe<Scalars['ID']>;
+  dinner?: Maybe<Scalars['ID']>;
+};
+
 export type Query = {
   __typename?: 'Query';
   /** Get all companies. The companies contain events. */
@@ -107,6 +107,8 @@ export type Query = {
   event?: Maybe<Event>;
   /** Check registration state of a user */
   userRegistered: RegistrationState;
+  /** Get your current desired events. */
+  desiredEvents?: Maybe<UserInterest>;
 };
 
 
@@ -202,7 +204,6 @@ export type ResolversTypes = {
   Tokens: ResolverTypeWrapper<Tokens>;
   String: ResolverTypeWrapper<Scalars['String']>;
   Int: ResolverTypeWrapper<Scalars['Int']>;
-  UserInterest: ResolverTypeWrapper<UserInterest>;
   Mutation: ResolverTypeWrapper<{}>;
   ID: ResolverTypeWrapper<Scalars['ID']>;
   EventTime: EventTime;
@@ -211,6 +212,7 @@ export type ResolversTypes = {
   Event: ResolverTypeWrapper<Event>;
   ColorSet: ResolverTypeWrapper<ColorSet>;
   Company: ResolverTypeWrapper<Company>;
+  UserInterest: ResolverTypeWrapper<UserInterest>;
   Query: ResolverTypeWrapper<{}>;
   DateTime: ResolverTypeWrapper<Scalars['DateTime']>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
@@ -221,7 +223,6 @@ export type ResolversParentTypes = {
   Tokens: Tokens;
   String: Scalars['String'];
   Int: Scalars['Int'];
-  UserInterest: UserInterest;
   Mutation: {};
   ID: Scalars['ID'];
   Location: Location;
@@ -229,6 +230,7 @@ export type ResolversParentTypes = {
   Event: Event;
   ColorSet: ColorSet;
   Company: Company;
+  UserInterest: UserInterest;
   Query: {};
   DateTime: Scalars['DateTime'];
   Boolean: Scalars['Boolean'];
@@ -239,14 +241,6 @@ export type TokensResolvers<ContextType = any, ParentType extends ResolversParen
   id_token?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   refresh_token?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   expires_in?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-};
-
-export type UserInterestResolvers<ContextType = any, ParentType extends ResolversParentTypes['UserInterest'] = ResolversParentTypes['UserInterest']> = {
-  user_id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  breakfast?: Resolver<Maybe<ResolversTypes['Event']>, ParentType, ContextType>;
-  lunch?: Resolver<Maybe<ResolversTypes['Event']>, ParentType, ContextType>;
-  dinner?: Resolver<Maybe<ResolversTypes['Event']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -288,11 +282,20 @@ export type CompanyResolvers<ContextType = any, ParentType extends ResolversPare
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type UserInterestResolvers<ContextType = any, ParentType extends ResolversParentTypes['UserInterest'] = ResolversParentTypes['UserInterest']> = {
+  user_id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  breakfast?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
+  lunch?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
+  dinner?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   companies?: Resolver<Array<Maybe<ResolversTypes['Company']>>, ParentType, ContextType>;
   company?: Resolver<Maybe<ResolversTypes['Company']>, ParentType, ContextType, RequireFields<QueryCompanyArgs, '_id'>>;
   event?: Resolver<Maybe<ResolversTypes['Event']>, ParentType, ContextType, RequireFields<QueryEventArgs, '_id'>>;
   userRegistered?: Resolver<ResolversTypes['RegistrationState'], ParentType, ContextType>;
+  desiredEvents?: Resolver<Maybe<ResolversTypes['UserInterest']>, ParentType, ContextType>;
 };
 
 export interface DateTimeScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['DateTime'], any> {
@@ -301,12 +304,12 @@ export interface DateTimeScalarConfig extends GraphQLScalarTypeConfig<ResolversT
 
 export type Resolvers<ContextType = any> = {
   Tokens?: TokensResolvers<ContextType>;
-  UserInterest?: UserInterestResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   Location?: LocationResolvers<ContextType>;
   Event?: EventResolvers<ContextType>;
   ColorSet?: ColorSetResolvers<ContextType>;
   Company?: CompanyResolvers<ContextType>;
+  UserInterest?: UserInterestResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   DateTime?: GraphQLScalarType;
 };
