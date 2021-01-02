@@ -26,8 +26,6 @@ export type Mutation = {
   signIn?: Maybe<Tokens>;
   /** Refresh your authentication token */
   refresh?: Maybe<Tokens>;
-  /** Verify a JWT token, and return the associated user ID */
-  getUserID: Scalars['String'];
 };
 
 
@@ -38,11 +36,6 @@ export type MutationSignInArgs = {
 
 export type MutationRefreshArgs = {
   refresh_token: Scalars['String'];
-};
-
-
-export type MutationGetUserIdArgs = {
-  token: Scalars['String'];
 };
 
 export enum EventTime {
@@ -233,7 +226,6 @@ export type TokensResolvers<ContextType = any, ParentType extends ResolversParen
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   signIn?: Resolver<Maybe<ResolversTypes['Tokens']>, ParentType, ContextType, RequireFields<MutationSignInArgs, 'code'>>;
   refresh?: Resolver<Maybe<ResolversTypes['Tokens']>, ParentType, ContextType, RequireFields<MutationRefreshArgs, 'refresh_token'>>;
-  getUserID?: Resolver<ResolversTypes['String'], ParentType, ContextType, RequireFields<MutationGetUserIdArgs, 'token'>>;
 };
 
 export type LocationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Location'] = ResolversParentTypes['Location']> = {

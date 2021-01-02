@@ -1,11 +1,6 @@
-import { MutationRefreshArgs, MutationSignInArgs, MutationGetUserIdArgs, Tokens } from '../generated/graphql';
+import { MutationRefreshArgs, MutationSignInArgs, Tokens } from '../generated/graphql';
 import axios from 'axios';
 import FormData from 'form-data';
-import jwt from 'jsonwebtoken';
-
-type TokenClaims = {
-    sub: string;
-};
 
 const getRequestBody = (grant_type: 'authorization_code' | 'refresh_token', payload: string) => {
     const body = new FormData();
@@ -42,17 +37,6 @@ export default {
             const data: Tokens = (await response).data;
 
             return data;
-        },
-
-        getUserID: async (_: unknown, args: MutationGetUserIdArgs): Promise<string> => {
-            const cert = process.env.PUBLIC_KEY || '';
-
-            try {
-                const token = jwt.verify(args.token, cert) as TokenPayloadType;
-                return token.sub;
-            } catch (err) {
-                return Promise.reject(err.message);
-            }
         },
     },
 };
