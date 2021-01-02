@@ -16,12 +16,13 @@ import mutationResolver from './resolvers/Mutation';
 import * as scalarTypeDef from './typedefs/Scalars.graphql';
 import * as queryTypeDef from './typedefs/Query.graphql';
 import * as mutationTypeDef from './typedefs/Mutation.graphql';
+
 import mongoose, { Document, Model } from 'mongoose';
 import { Company } from './mongoose/models';
 
 export type ResolverContext = {
     models: Record<'Company', Model<Document>>;
-    user: { access_token: string };
+    user?: { access_token: string };
 };
 
 (async () => {
@@ -34,17 +35,21 @@ export type ResolverContext = {
         resolvers: { ...queryResolver, ...mutationResolver, DateTime: DateTimeResolver },
         typeDefs: [scalarTypeDef, queryTypeDef, mutationTypeDef],
         playground: environment.apollo.playground,
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         context: ({ req }): ResolverContext => {
-            const access_token = req.headers.authorization || '';
+            const access_token = req.headers.authorization;
+
+            let user: ResolverContext['user'] = undefined;
+
+            // Check that there are two parts of the header -- "Bearer" + token
+            if (access_token && access_token.split(' ').length === 2) {
+                user = { access_token: access_token.split(' ')[1] };
+            }
 
             return {
                 models: {
-                    Company: Company,
+                    Company,
                 },
-                user: {
-                    access_token,
-                },
+                user,
             };
         },
         // Allows codegen to get the query/schema types from the server instead of parsing static files.
