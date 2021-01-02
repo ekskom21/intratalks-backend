@@ -16,7 +16,12 @@ import mutationResolver from './resolvers/Mutation';
 import * as scalarTypeDef from './typedefs/Scalars.graphql';
 import * as queryTypeDef from './typedefs/Query.graphql';
 import * as mutationTypeDef from './typedefs/Mutation.graphql';
-import mongoose from 'mongoose';
+import mongoose, { Document, Model } from 'mongoose';
+import { Company } from './mongoose/models';
+
+export type ResolverContext = {
+    models: Record<'Company', Model<Document>>;
+};
 
 (async () => {
     // Only spin up MongoDB connection if we aren't mocking and it's disconnected.
@@ -28,17 +33,22 @@ import mongoose from 'mongoose';
         resolvers: { ...queryResolver, ...mutationResolver, DateTime: DateTimeResolver },
         typeDefs: [scalarTypeDef, queryTypeDef, mutationTypeDef],
         playground: environment.apollo.playground,
-        context: mongoose.connection,
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        context: (req): ResolverContext => {
+            return {
+                models: {
+                    Company: Company,
+                },
+            };
+        },
         // Allows codegen to get the query/schema types from the server instead of parsing static files.
         introspection: environment.apollo.introspection,
         mockEntireSchema: environment.apollo.mockEntireSchema,
         // If we don't want to mock, don't mock.
-        mocks: environment.apollo.mockEntireSchema
-            ? {
-                  DateTime: DateTimeMock,
-                  ...mocks,
-              }
-            : false,
+        mocks: environment.apollo.mockEntireSchema && {
+            DateTime: DateTimeMock,
+            ...mocks,
+        },
     });
 
     console.log('[Apollo Server] Starting server...');

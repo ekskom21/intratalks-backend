@@ -17,6 +17,7 @@ CLIENT_SECRET = **REDACTED**
 CLIENT_ID = **REDACTED**
 REDIRECT_URI = **REDACTED**
 MONGODB_URL = **REDACTED**
+PUBLIC_KEY = **REDACTED**
 ```
 
 Ask [Jonathan](https://github.com/blauks/) for more details:-)

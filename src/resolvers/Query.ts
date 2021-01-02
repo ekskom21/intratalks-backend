@@ -1,17 +1,21 @@
 import { QueryCompanyArgs, QueryEventArgs } from '../generated/graphql';
-import { Company } from '../mongoose/models';
 import { Document } from 'mongoose';
+import { ResolverContext } from '..';
 
 export default {
     Query: {
-        companies: async (): Promise<Array<Document>> => {
-            return await Company.find({});
+        companies: async (_parent: unknown, _args: undefined, context: ResolverContext): Promise<Array<Document>> => {
+            return await context.models.Company.find({});
         },
-        company: async (_: unknown, { _id }: QueryCompanyArgs): Promise<Document | null> => {
-            return await Company.findById(_id);
+        company: async (_: unknown, { _id }: QueryCompanyArgs, context: ResolverContext): Promise<Document | null> => {
+            return await context.models.Company.findById(_id);
         },
-        event: async (_: unknown, { _id }: QueryEventArgs): Promise<{ event: Document; company: Document } | null> => {
-            const company = await Company.findOne({ events: { $elemMatch: { _id } } });
+        event: async (
+            _: unknown,
+            { _id }: QueryEventArgs,
+            context: ResolverContext,
+        ): Promise<{ event: Document; company: Document } | null> => {
+            const company = await context.models.Company.findOne({ events: { $elemMatch: { _id } } });
 
             if (company === null) {
                 return null;
