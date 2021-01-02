@@ -37,6 +37,10 @@ export default {
         },
 
         userRegistered: async (_: unknown, _args: undefined, context: ResolverContext): Promise<RegistrationState> => {
+            if (!context.user) {
+                throw new Error('You need to be authenticated to access this resource.');
+            }
+
             return userRegistered(context.user.access_token);
         },
     },
