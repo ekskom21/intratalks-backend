@@ -11,7 +11,7 @@ export type UserInfo = {
     member: boolean;
     staff: boolean;
     superuser: boolean;
-    rfid: 'string';
+    rfid: string;
     field_of_study: string;
 };
 
