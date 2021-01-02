@@ -45,4 +45,7 @@ type Query {
 
     "Get a single event."
     event(_id: String!): EventAndCompany
+
+    "Check registration state of a user"
+    userRegistered: RegistrationState!
 }
