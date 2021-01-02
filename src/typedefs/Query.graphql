@@ -16,6 +16,7 @@ type Event {
     time: EventTime!
     location: Location!
     description: String!
+    company: Company!
 }
 
 type ColorSet {
@@ -31,9 +32,11 @@ type Company {
     description: String!
 }
 
-type EventAndCompany {
-    event: Event!
-    company: Company!
+type UserInterest {
+    user_id: String!
+    breakfast: Event
+    lunch: Event
+    dinner: Event
 }
 
 type Query {
@@ -44,7 +47,7 @@ type Query {
     company(_id: String!): Company
 
     "Get a single event."
-    event(_id: String!): EventAndCompany
+    event(_id: String!): Event
 
     "Check registration state of a user"
     userRegistered: RegistrationState!

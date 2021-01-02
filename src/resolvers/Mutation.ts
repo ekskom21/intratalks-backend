@@ -1,6 +1,16 @@
-import { MutationRefreshArgs, MutationSignInArgs, Tokens } from '../generated/graphql';
+import {
+    MutationRefreshArgs,
+    MutationSignInArgs,
+    MutationRegisterInterestArgs,
+    Tokens,
+    EventTime,
+    Event,
+} from '../generated/graphql';
 import axios from 'axios';
 import FormData from 'form-data';
+import { ResolverContext } from '..';
+import guardAuthenticated from '../utils/guardAuthenticated';
+import { Document } from 'mongoose';
 
 const getRequestBody = (grant_type: 'authorization_code' | 'refresh_token', payload: string) => {
     const body = new FormData();
@@ -37,6 +47,40 @@ export default {
             const data: Tokens = (await response).data;
 
             return data;
+        },
+        registerInterest: async (
+            _: unknown,
+            { event_id }: MutationRegisterInterestArgs,
+            context: ResolverContext,
+        ): Promise<Document> => {
+            guardAuthenticated(context);
+
+            const event = await context.models.Event.findById(event_id).exec();
+
+            if (!event) {
+                throw new Error('That event does not exist.');
+            }
+
+            const time: EventTime = event.get('time');
+
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            const interest = await context.models.Interest.findOne({ user_id: context.user!.claims.sub });
+
+            if (interest) {
+                await interest.updateOne({ [time.toLowerCase()]: event._id });
+                return event;
+            }
+
+            await new context.models.Interest({
+                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                user_id: context.user!.claims.sub,
+                breakfast: null,
+                lunch: null,
+                dinner: null,
+                [time.toLowerCase()]: event._id,
+            }).save();
+
+            return event;
         },
     },
 };
