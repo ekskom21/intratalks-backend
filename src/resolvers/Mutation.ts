@@ -3,7 +3,7 @@ import axios from 'axios';
 import FormData from 'form-data';
 import jwt from 'jsonwebtoken';
 
-type TokenPayloadType = {
+type TokenClaims = {
     sub: string;
 };
 
@@ -48,8 +48,8 @@ export default {
             const cert = process.env.PUBLIC_KEY || '';
 
             try {
-                const decoded = jwt.verify(args.token, cert);
-                return (decoded as TokenPayloadType).sub;
+                const token = jwt.verify(args.token, cert) as TokenPayloadType;
+                return token.sub;
             } catch (err) {
                 return Promise.reject(err.message);
             }
