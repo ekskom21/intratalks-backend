@@ -32,8 +32,6 @@ export type Mutation = {
   signIn?: Maybe<Tokens>;
   /** Refresh your authentication token */
   refresh?: Maybe<Tokens>;
-  /** Check registration state of a user */
-  userRegistered: RegistrationState;
 };
 
 
@@ -44,11 +42,6 @@ export type MutationSignInArgs = {
 
 export type MutationRefreshArgs = {
   refresh_token: Scalars['String'];
-};
-
-
-export type MutationUserRegisteredArgs = {
-  access_token: Scalars['String'];
 };
 
 export enum EventTime {
@@ -102,6 +95,8 @@ export type Query = {
   company?: Maybe<Company>;
   /** Get a single event. */
   event?: Maybe<EventAndCompany>;
+  /** Check registration state of a user */
+  userRegistered: RegistrationState;
 };
 
 
@@ -240,7 +235,6 @@ export type TokensResolvers<ContextType = any, ParentType extends ResolversParen
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   signIn?: Resolver<Maybe<ResolversTypes['Tokens']>, ParentType, ContextType, RequireFields<MutationSignInArgs, 'code'>>;
   refresh?: Resolver<Maybe<ResolversTypes['Tokens']>, ParentType, ContextType, RequireFields<MutationRefreshArgs, 'refresh_token'>>;
-  userRegistered?: Resolver<ResolversTypes['RegistrationState'], ParentType, ContextType, RequireFields<MutationUserRegisteredArgs, 'access_token'>>;
 };
 
 export type LocationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Location'] = ResolversParentTypes['Location']> = {
@@ -284,6 +278,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   companies?: Resolver<Array<Maybe<ResolversTypes['Company']>>, ParentType, ContextType>;
   company?: Resolver<Maybe<ResolversTypes['Company']>, ParentType, ContextType, RequireFields<QueryCompanyArgs, '_id'>>;
   event?: Resolver<Maybe<ResolversTypes['EventAndCompany']>, ParentType, ContextType, RequireFields<QueryEventArgs, '_id'>>;
+  userRegistered?: Resolver<ResolversTypes['RegistrationState'], ParentType, ContextType>;
 };
 
 export interface DateTimeScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['DateTime'], any> {

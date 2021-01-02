@@ -1,15 +1,18 @@
-import { QueryCompanyArgs, QueryEventArgs } from '../generated/graphql';
+import { QueryCompanyArgs, QueryEventArgs, RegistrationState } from '../generated/graphql';
 import { Document } from 'mongoose';
 import { ResolverContext } from '..';
+import userRegistered from '../utils/userRegistered';
 
 export default {
     Query: {
         companies: async (_parent: unknown, _args: undefined, context: ResolverContext): Promise<Array<Document>> => {
             return await context.models.Company.find({});
         },
+
         company: async (_: unknown, { _id }: QueryCompanyArgs, context: ResolverContext): Promise<Document | null> => {
             return await context.models.Company.findById(_id);
         },
+
         event: async (
             _: unknown,
             { _id }: QueryEventArgs,
@@ -31,6 +34,10 @@ export default {
                 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                 event: events.find((e) => e._id! == _id)!,
             };
+        },
+
+        userRegistered: async (_: unknown, _args: undefined, context: ResolverContext): Promise<RegistrationState> => {
+            return userRegistered(context.user.access_token);
         },
     },
 };

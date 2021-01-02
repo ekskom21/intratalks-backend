@@ -1,17 +1,6 @@
-import {
-    MutationRefreshArgs,
-    MutationSignInArgs,
-    MutationUserRegisteredArgs,
-    Tokens,
-    RegistrationState,
-} from '../generated/graphql';
+import { MutationRefreshArgs, MutationSignInArgs, Tokens } from '../generated/graphql';
 import axios from 'axios';
 import FormData from 'form-data';
-
-type AttendanceEventType = {
-    is_attendee: boolean;
-    is_on_waitlist: boolean;
-};
 
 const getRequestBody = (grant_type: 'authorization_code' | 'refresh_token', payload: string) => {
     const body = new FormData();
@@ -48,31 +37,6 @@ export default {
             const data: Tokens = (await response).data;
 
             return data;
-        },
-
-        userRegistered: async (_: unknown, args: MutationUserRegisteredArgs): Promise<RegistrationState> => {
-            try {
-                // You can set the event ID in the .env file.
-                const eventId = process.env.EVENT_ID;
-
-                const response = axios.get(`https://online.ntnu.no/api/v1/event/attendance-events/${eventId}/`, {
-                    headers: {
-                        Authorization: 'Bearer ' + args.access_token,
-                        Accept: 'application/json',
-                    },
-                });
-
-                const data: AttendanceEventType = (await response).data;
-
-                if (data.is_on_waitlist) {
-                    return RegistrationState.WaitList;
-                }
-
-                return RegistrationState.Registered;
-            } catch (e) {
-                // The request will return a 404 if the user is not on the attendence list.
-                return RegistrationState.NotRegistered;
-            }
         },
     },
 };

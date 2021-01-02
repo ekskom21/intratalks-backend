@@ -21,6 +21,7 @@ import { Company } from './mongoose/models';
 
 export type ResolverContext = {
     models: Record<'Company', Model<Document>>;
+    user: { access_token: string };
 };
 
 (async () => {
@@ -34,10 +35,15 @@ export type ResolverContext = {
         typeDefs: [scalarTypeDef, queryTypeDef, mutationTypeDef],
         playground: environment.apollo.playground,
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        context: (req): ResolverContext => {
+        context: ({ req }): ResolverContext => {
+            const access_token = req.headers.authorization || '';
+
             return {
                 models: {
                     Company: Company,
+                },
+                user: {
+                    access_token,
                 },
             };
         },
