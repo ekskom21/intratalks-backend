@@ -26,5 +26,12 @@ export default {
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             return userRegistered(context.user!.access_token);
         },
+
+        desiredEvents: async (_: unknown, _args: undefined, context: ResolverContext): Promise<Document | null> => {
+            guardAuthenticated(context);
+
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            return await context.models.Interest.findOne({ user_id: context.user!.claims.sub });
+        },
     },
 };

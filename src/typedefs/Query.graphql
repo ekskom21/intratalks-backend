@@ -34,9 +34,9 @@ type Company {
 
 type UserInterest {
     user_id: String!
-    breakfast: Event
-    lunch: Event
-    dinner: Event
+    breakfast: ID
+    lunch: ID
+    dinner: ID
 }
 
 type Query {
@@ -51,4 +51,7 @@ type Query {
 
     "Check registration state of a user"
     userRegistered: RegistrationState!
+
+    "Get your current desired events."
+    desiredEvents: UserInterest
 }

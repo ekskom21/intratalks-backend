@@ -48,6 +48,7 @@ export default {
 
             return data;
         },
+
         registerInterest: async (
             _: unknown,
             { event_id }: MutationRegisterInterestArgs,
