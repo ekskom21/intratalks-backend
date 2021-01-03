@@ -20,7 +20,7 @@ export default {
             return event;
         },
 
-        events: async (_: unknown, _args: undefined, context: ResolverContext): Promise<Array<Document> | null> => {
+        events: async (_: unknown, _args: undefined, context: ResolverContext): Promise<Array<Document>> => {
             return await context.models.Event.find({}).populate('company').exec();
         },
 
