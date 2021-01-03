@@ -20,6 +20,10 @@ export default {
             return event;
         },
 
+        events: async (_: unknown, _args: undefined, context: ResolverContext): Promise<Array<Document>> => {
+            return await context.models.Event.find({}).populate('company').exec();
+        },
+
         userRegistered: async (_: unknown, _args: undefined, context: ResolverContext): Promise<RegistrationState> => {
             guardAuthenticated(context);
 

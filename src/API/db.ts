@@ -15,6 +15,7 @@ export default async (): Promise<void> => {
         await mongoose.connect(environment.mongoDb.url, {
             useNewUrlParser: true,
             useUnifiedTopology: true,
+            useCreateIndex: true,
         });
     } catch (e) {
         console.error(`[Mongoose] Error while connecting: ${e}`);

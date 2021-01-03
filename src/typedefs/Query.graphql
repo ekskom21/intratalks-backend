@@ -57,6 +57,9 @@ type Query {
     "Get a single event."
     event(_id: String!): Event
 
+    "Get all events"
+    events: [Event!]!
+
     "Check registration state of a user"
     userRegistered: RegistrationState!
 
