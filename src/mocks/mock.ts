@@ -34,5 +34,8 @@ export default {
     Query: () => ({
         companies: () => new MockList([7, 9]),
         events: () => new MockList(25),
+        assignedEvents: () => ({
+            user_id: () => casual.integer(10000, 25000),
+        }),
     }),
 };
