@@ -21,9 +21,7 @@ export default {
         },
 
         events: async (_: unknown, _args: undefined, context: ResolverContext): Promise<Array<Document> | null> => {
-            const events = await context.models.Event.find({}).populate('company').exec();
-
-            return events;
+            return await context.models.Event.find({}).populate('company').exec();
         },
 
         userRegistered: async (_: unknown, _args: undefined, context: ResolverContext): Promise<RegistrationState> => {
