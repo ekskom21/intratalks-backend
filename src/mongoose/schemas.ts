@@ -1,5 +1,12 @@
 import mongoose, { Schema } from 'mongoose';
-import { ColorSet, Company, Event as EventT, EventTime, Location as LocationT } from '../generated/graphql';
+import {
+    ColorSet,
+    Company,
+    Event as EventT,
+    EventTime,
+    Location as LocationT,
+    UserInterest,
+} from '../generated/graphql';
 
 export const locationSchema: Schema<LocationT> = new mongoose.Schema({
     lat: Number,
@@ -12,6 +19,7 @@ export const eventSchema: Schema<EventT> = new mongoose.Schema({
     time: { type: String, enum: ['BREAKFAST', 'LUNCH', 'DINNER'] as EventTime[] },
     location: locationSchema,
     description: String,
+    company: { type: mongoose.Schema.Types.ObjectId, ref: 'Company' },
 });
 
 export const colorSetSchema: Schema<ColorSet> = new mongoose.Schema({
@@ -20,8 +28,15 @@ export const colorSetSchema: Schema<ColorSet> = new mongoose.Schema({
 });
 
 export const companySchema: Schema<Company> = new mongoose.Schema({
-    events: { type: [eventSchema], index: true },
+    events: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Event' }],
     name: String,
     colors: colorSetSchema,
     description: String,
+});
+
+export const interestSchema: Schema<UserInterest> = new mongoose.Schema({
+    user_id: { type: String, index: true },
+    breakfast: { type: mongoose.Schema.Types.ObjectId, ref: 'Event' },
+    lunch: { type: mongoose.Schema.Types.ObjectId, ref: 'Event' },
+    dinner: { type: mongoose.Schema.Types.ObjectId, ref: 'Event' },
 });
