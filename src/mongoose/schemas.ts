@@ -34,7 +34,9 @@ export const companySchema: Schema<Company> = new mongoose.Schema({
     description: String,
 });
 
-export const interestSchema: Schema<UserInterest> = new mongoose.Schema({
+// There is a small difference between Interest/Assigned events here.
+// Interest has nullable Events, whereas Assigned does not.
+export const eventDaySchema: Schema<UserInterest> = new mongoose.Schema({
     user_id: { type: String, index: true },
     breakfast: { type: mongoose.Schema.Types.ObjectId, ref: 'Event' },
     lunch: { type: mongoose.Schema.Types.ObjectId, ref: 'Event' },

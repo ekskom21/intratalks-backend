@@ -34,9 +34,17 @@ type Company {
 
 type UserInterest {
     user_id: String!
-    breakfast: ID
-    lunch: ID
-    dinner: ID
+    breakfast: Event
+    lunch: Event
+    dinner: Event
+}
+
+"Almost the same as UserInterest, but the events can't be null here anymore."
+type AssignedEvents {
+    user_id: String!
+    breakfast: Event!
+    lunch: Event!
+    dinner: Event!
 }
 
 type Query {
@@ -54,4 +62,7 @@ type Query {
 
     "Get your current desired events."
     desiredEvents: UserInterest
+
+    "Get your assigned events"
+    assignedEvents: AssignedEvents
 }

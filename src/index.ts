@@ -18,13 +18,13 @@ import * as queryTypeDef from './typedefs/Query.graphql';
 import * as mutationTypeDef from './typedefs/Mutation.graphql';
 
 import mongoose, { Document, Model } from 'mongoose';
-import { Company, Event, Interest } from './mongoose/models';
+import { Company, Event, Interest, Assigned } from './mongoose/models';
 
 import { verify } from 'jsonwebtoken';
 import { Claims } from './utils/jwtClaims';
 
 export type ResolverContext = {
-    models: Record<'Company' | 'Event' | 'Interest', Model<Document>>;
+    models: Record<'Company' | 'Event' | 'Interest' | 'Assigned', Model<Document>>;
     user?: { access_token: string; claims: Claims };
 };
 
@@ -64,6 +64,7 @@ export type ResolverContext = {
                     Company,
                     Event,
                     Interest,
+                    Assigned,
                 },
                 user,
             };
