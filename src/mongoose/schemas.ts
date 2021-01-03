@@ -34,7 +34,7 @@ export const companySchema: Schema<Company> = new mongoose.Schema({
     description: String,
 });
 
-export const interestSchema: Schema<UserInterest> = new mongoose.Schema({
+export const interestAndAssignedSchema: Schema<UserInterest> = new mongoose.Schema({
     user_id: { type: String, index: true },
     breakfast: { type: mongoose.Schema.Types.ObjectId, ref: 'Event' },
     lunch: { type: mongoose.Schema.Types.ObjectId, ref: 'Event' },

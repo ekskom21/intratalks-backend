@@ -39,7 +39,14 @@ export default {
         },
 
         assignedEvents: async (_: unknown, _args: undefined, context: ResolverContext): Promise<Document | null> => {
-            return null;
+            guardAuthenticated(context);
+
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            return await context.models.Assigned.findOne({ user_id: context.user!.claims.sub }).populate([
+                { path: 'breakfast', populate: { path: 'company' } },
+                { path: 'lunch', populate: { path: 'company' } },
+                { path: 'dinner', populate: { path: 'company' } },
+            ]);
         },
     },
 };
