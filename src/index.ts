@@ -54,9 +54,7 @@ export type ResolverContext = {
                     const claims = verify(id_token, process.env.PUBLIC_KEY!) as Claims;
 
                     user = { access_token: access_token.split(' ')[1], claims };
-                } catch (e) {
-                    console.log('Invalid token supplied.');
-                }
+                } catch (e) {} // We don't care if the user failed to authenticate here. It will be handled in the resolvers.
             }
 
             return {
