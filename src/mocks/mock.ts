@@ -36,6 +36,15 @@ export default {
         events: () => new MockList(25),
         assignedEvents: () => ({
             user_id: () => casual.integer(10000, 25000),
+            breakfast: () => ({
+                time: () => 'BREAKFAST',
+            }),
+            lunch: () => ({
+                time: () => 'LUNCH',
+            }),
+            dinner: () => ({
+                time: () => 'DINNER',
+            }),
         }),
     }),
 };
