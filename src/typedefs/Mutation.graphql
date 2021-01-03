@@ -17,4 +17,7 @@ type Mutation {
 
     "Refresh your authentication token"
     refresh(refresh_token: String!): Tokens
+
+    "Register interest for a specific event"
+    registerInterest(event_id: String!): Event!
 }
