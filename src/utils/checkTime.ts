@@ -1,7 +1,7 @@
 import { isPast, subHours, fromUnixTime, addHours, isFuture, subMinutes } from 'date-fns';
 import { EventTime } from '../generated/graphql';
 
-// Tech Talks time, if we are not in devlopment we set the date to February 18th 2021 at 10 o'clock
+// Tech Talks time, if we are not in development we set the date to February 18th 2021 at 10 o'clock
 export const BASE_TIME = process.env.NODE_ENV === 'development' ? subHours(new Date(), 4) : fromUnixTime(1613642400);
 
 // Set the registration deadline to February 17th 2021 at 10 o'clock
