@@ -46,5 +46,6 @@ export default {
                 time: () => 'DINNER',
             }),
         }),
+        attendedEvent: () => casual.coin_flip,
     }),
 };

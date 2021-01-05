@@ -11,6 +11,11 @@ type Tokens {
     expires_in: Int!
 }
 
+type UserAttended {
+    user_id: String!
+    event: Event!
+}
+
 type Mutation {
     "Get authentication tokens for OW4"
     signIn(code: String!): Tokens
@@ -20,4 +25,7 @@ type Mutation {
 
     "Register interest for a specific event"
     registerInterest(event_id: String!): Event!
+
+    "Register the attendance of a user for a specific event"
+    registerAttendence(user_id: String!, event_id: String!): Event!
 }
