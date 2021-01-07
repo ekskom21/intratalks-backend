@@ -21,8 +21,8 @@ export const translateTime = (time: EventTime): Date => {
     }[time];
 };
 
-export const registerInTime = (eventTime: EventTime): void => {
+export const withinRegistrationWindow = (eventTime: EventTime): void => {
     if (isFuture(subMinutes(translateTime(eventTime), 15))) {
-        throw new Error('Registration has not opened yet');
+        throw new Error('Registration is not open');
     }
 };

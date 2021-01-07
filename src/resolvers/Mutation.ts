@@ -12,7 +12,7 @@ import { ResolverContext } from '..';
 import guardAuthenticated from '../utils/guardAuthenticated';
 import adminOnly from '../utils/adminOnly';
 import { Document } from 'mongoose';
-import { registerInTime } from '../utils/time';
+import { withinRegistrationWindow } from '../utils/time';
 
 const getRequestBody = (grant_type: 'authorization_code' | 'refresh_token', payload: string) => {
     const body = new FormData();
@@ -101,7 +101,7 @@ export default {
             }
 
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            registerInTime(event!.get('time'));
+            withinRegistrationWindow(event!.get('time'));
 
             const assignedEvent = await context.models.Assigned.findOne(
                 { user_id: args.user_id },
