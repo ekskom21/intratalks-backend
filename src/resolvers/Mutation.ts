@@ -103,7 +103,7 @@ export default {
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             registerInTime(event!.get('time'));
 
-            const assignedEvents = await context.models.Assigned.findOne(
+            const assignedEvent = await context.models.Assigned.findOne(
                 { user_id: args.user_id },
                 { $or: [{ breakfast: args.event_id }, { lunch: args.event_id }, { dinner: args.event_id }] },
             );
