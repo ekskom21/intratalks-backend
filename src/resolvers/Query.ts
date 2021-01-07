@@ -57,9 +57,11 @@ export default {
             guardAuthenticated(context);
 
             return (
-                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                (await context.models.Attended.findOne({ event: args.event_id, user_id: context.user!.claims.sub })) !==
-                null
+                (await context.models.Attended.findOne({
+                    event_id: args.event_id,
+                    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                    user_id: context.user!.claims.sub,
+                })) !== null
             );
         },
     },
