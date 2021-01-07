@@ -112,6 +112,15 @@ export default {
                 throw new Error('User is not registered for this event.');
             }
 
+            const attendedEvent = await context.models.Attended.findOne({
+                user_id: args.user_id,
+                event_id: args.event_id,
+            });
+
+            if (attendedEvent) {
+                throw new Error('User already registered attendence.');
+            }
+
             await new context.models.Attended({
                 user_id: args.user_id,
                 event_id: args.event_id,
