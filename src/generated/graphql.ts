@@ -26,12 +26,6 @@ export type Tokens = {
   expires_in: Scalars['Int'];
 };
 
-export type UserAttended = {
-  __typename?: 'UserAttended';
-  user_id: Scalars['String'];
-  event: Event;
-};
-
 export type Mutation = {
   __typename?: 'Mutation';
   /** Get authentication tokens for OW4 */
@@ -40,8 +34,8 @@ export type Mutation = {
   refresh?: Maybe<Tokens>;
   /** Register interest for a specific event */
   registerInterest: Event;
-  /** Register the attendance of a user for a specific event */
-  registerAttendence: Scalars['String'];
+  /** Register a users attendence for a specific event. You have to be an admin to use this */
+  registerAttendence: Event;
 };
 
 
@@ -238,7 +232,6 @@ export type ResolversTypes = {
   Tokens: ResolverTypeWrapper<Tokens>;
   String: ResolverTypeWrapper<Scalars['String']>;
   Int: ResolverTypeWrapper<Scalars['Int']>;
-  UserAttended: ResolverTypeWrapper<UserAttended>;
   Mutation: ResolverTypeWrapper<{}>;
   EventTime: EventTime;
   Location: ResolverTypeWrapper<Location>;
@@ -259,7 +252,6 @@ export type ResolversParentTypes = {
   Tokens: Tokens;
   String: Scalars['String'];
   Int: Scalars['Int'];
-  UserAttended: UserAttended;
   Mutation: {};
   Location: Location;
   Float: Scalars['Float'];
@@ -282,17 +274,11 @@ export type TokensResolvers<ContextType = any, ParentType extends ResolversParen
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type UserAttendedResolvers<ContextType = any, ParentType extends ResolversParentTypes['UserAttended'] = ResolversParentTypes['UserAttended']> = {
-  user_id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  event?: Resolver<ResolversTypes['Event'], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-};
-
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   signIn?: Resolver<Maybe<ResolversTypes['Tokens']>, ParentType, ContextType, RequireFields<MutationSignInArgs, 'code'>>;
   refresh?: Resolver<Maybe<ResolversTypes['Tokens']>, ParentType, ContextType, RequireFields<MutationRefreshArgs, 'refresh_token'>>;
   registerInterest?: Resolver<ResolversTypes['Event'], ParentType, ContextType, RequireFields<MutationRegisterInterestArgs, 'event_id'>>;
-  registerAttendence?: Resolver<ResolversTypes['String'], ParentType, ContextType, RequireFields<MutationRegisterAttendenceArgs, 'user_id' | 'event_id'>>;
+  registerAttendence?: Resolver<ResolversTypes['Event'], ParentType, ContextType, RequireFields<MutationRegisterAttendenceArgs, 'user_id' | 'event_id'>>;
 };
 
 export type LocationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Location'] = ResolversParentTypes['Location']> = {
@@ -360,7 +346,6 @@ export interface DateTimeScalarConfig extends GraphQLScalarTypeConfig<ResolversT
 
 export type Resolvers<ContextType = any> = {
   Tokens?: TokensResolvers<ContextType>;
-  UserAttended?: UserAttendedResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   Location?: LocationResolvers<ContextType>;
   Event?: EventResolvers<ContextType>;

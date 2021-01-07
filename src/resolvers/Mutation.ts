@@ -12,7 +12,7 @@ import { ResolverContext } from '..';
 import guardAuthenticated from '../utils/guardAuthenticated';
 import adminOnly from '../utils/adminOnly';
 import { Document } from 'mongoose';
-import { registerInTime } from '../utils/checkTime';
+import { registerInTime } from '../utils/time';
 
 const getRequestBody = (grant_type: 'authorization_code' | 'refresh_token', payload: string) => {
     const body = new FormData();
@@ -108,7 +108,7 @@ export default {
                 { $or: [{ breakfast: args.event_id }, { lunch: args.event_id }, { dinner: args.event_id }] },
             );
 
-            if (!assignedEvents) {
+            if (!assignedEvent) {
                 throw new Error('User is not registered for this event.');
             }
 

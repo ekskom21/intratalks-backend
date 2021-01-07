@@ -11,11 +11,6 @@ type Tokens {
     expires_in: Int!
 }
 
-type UserAttended {
-    user_id: String!
-    event: Event!
-}
-
 type Mutation {
     "Get authentication tokens for OW4"
     signIn(code: String!): Tokens

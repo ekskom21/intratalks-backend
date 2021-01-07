@@ -6,8 +6,12 @@ import {
     EventTime,
     Location as LocationT,
     UserInterest,
-    UserAttended,
 } from '../generated/graphql';
+
+type UserAttended = {
+    user_id: string;
+    event: Event;
+};
 
 export const locationSchema: Schema<LocationT> = new mongoose.Schema({
     lat: Number,
