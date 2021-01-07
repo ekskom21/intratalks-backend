@@ -34,6 +34,8 @@ export type Mutation = {
   refresh?: Maybe<Tokens>;
   /** Register interest for a specific event */
   registerInterest: Event;
+  /** Register a users attendence for a specific event. You have to be an admin to use this */
+  registerAttendence: Event;
 };
 
 
@@ -48,6 +50,12 @@ export type MutationRefreshArgs = {
 
 
 export type MutationRegisterInterestArgs = {
+  event_id: Scalars['String'];
+};
+
+
+export type MutationRegisterAttendenceArgs = {
+  user_id: Scalars['String'];
   event_id: Scalars['String'];
 };
 
@@ -122,6 +130,8 @@ export type Query = {
   desiredEvents?: Maybe<UserInterest>;
   /** Get your assigned events */
   assignedEvents?: Maybe<AssignedEvents>;
+  /** Check if you have attended an event */
+  attendedEvent: Scalars['Boolean'];
 };
 
 
@@ -132,6 +142,11 @@ export type QueryCompanyArgs = {
 
 export type QueryEventArgs = {
   _id: Scalars['String'];
+};
+
+
+export type QueryAttendedEventArgs = {
+  event_id: Scalars['ID'];
 };
 
 
@@ -228,8 +243,8 @@ export type ResolversTypes = {
   UserInterest: ResolverTypeWrapper<UserInterest>;
   AssignedEvents: ResolverTypeWrapper<AssignedEvents>;
   Query: ResolverTypeWrapper<{}>;
-  DateTime: ResolverTypeWrapper<Scalars['DateTime']>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
+  DateTime: ResolverTypeWrapper<Scalars['DateTime']>;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
@@ -247,8 +262,8 @@ export type ResolversParentTypes = {
   UserInterest: UserInterest;
   AssignedEvents: AssignedEvents;
   Query: {};
-  DateTime: Scalars['DateTime'];
   Boolean: Scalars['Boolean'];
+  DateTime: Scalars['DateTime'];
 };
 
 export type TokensResolvers<ContextType = any, ParentType extends ResolversParentTypes['Tokens'] = ResolversParentTypes['Tokens']> = {
@@ -263,6 +278,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   signIn?: Resolver<Maybe<ResolversTypes['Tokens']>, ParentType, ContextType, RequireFields<MutationSignInArgs, 'code'>>;
   refresh?: Resolver<Maybe<ResolversTypes['Tokens']>, ParentType, ContextType, RequireFields<MutationRefreshArgs, 'refresh_token'>>;
   registerInterest?: Resolver<ResolversTypes['Event'], ParentType, ContextType, RequireFields<MutationRegisterInterestArgs, 'event_id'>>;
+  registerAttendence?: Resolver<ResolversTypes['Event'], ParentType, ContextType, RequireFields<MutationRegisterAttendenceArgs, 'user_id' | 'event_id'>>;
 };
 
 export type LocationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Location'] = ResolversParentTypes['Location']> = {
@@ -321,6 +337,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   userRegistered?: Resolver<ResolversTypes['RegistrationState'], ParentType, ContextType>;
   desiredEvents?: Resolver<Maybe<ResolversTypes['UserInterest']>, ParentType, ContextType>;
   assignedEvents?: Resolver<Maybe<ResolversTypes['AssignedEvents']>, ParentType, ContextType>;
+  attendedEvent?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<QueryAttendedEventArgs, 'event_id'>>;
 };
 
 export interface DateTimeScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['DateTime'], any> {

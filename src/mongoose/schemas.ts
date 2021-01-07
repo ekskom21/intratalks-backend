@@ -8,6 +8,11 @@ import {
     UserInterest,
 } from '../generated/graphql';
 
+type UserAttended = {
+    user_id: string;
+    event: Event;
+};
+
 export const locationSchema: Schema<LocationT> = new mongoose.Schema({
     lat: Number,
     lng: Number,
@@ -41,4 +46,9 @@ export const eventDaySchema: Schema<UserInterest> = new mongoose.Schema({
     breakfast: { type: mongoose.Schema.Types.ObjectId, ref: 'Event' },
     lunch: { type: mongoose.Schema.Types.ObjectId, ref: 'Event' },
     dinner: { type: mongoose.Schema.Types.ObjectId, ref: 'Event' },
+});
+
+export const userAttendedSchema: Schema<UserAttended> = new mongoose.Schema({
+    user_id: { type: String },
+    event_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Event' },
 });

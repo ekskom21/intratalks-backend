@@ -1,4 +1,4 @@
-import { QueryCompanyArgs, QueryEventArgs, RegistrationState } from '../generated/graphql';
+import { QueryCompanyArgs, QueryEventArgs, QueryAttendedEventArgs, RegistrationState } from '../generated/graphql';
 import { Document } from 'mongoose';
 import { ResolverContext } from '..';
 import userRegistered from '../utils/userRegistered';
@@ -51,6 +51,18 @@ export default {
                 { path: 'lunch', populate: { path: 'company' } },
                 { path: 'dinner', populate: { path: 'company' } },
             ]);
+        },
+
+        attendedEvent: async (_: unknown, args: QueryAttendedEventArgs, context: ResolverContext): Promise<boolean> => {
+            guardAuthenticated(context);
+
+            return (
+                (await context.models.Attended.findOne({
+                    event_id: args.event_id,
+                    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                    user_id: context.user!.claims.sub,
+                })) !== null
+            );
         },
     },
 };

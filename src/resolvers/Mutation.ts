@@ -2,6 +2,7 @@ import {
     MutationRefreshArgs,
     MutationSignInArgs,
     MutationRegisterInterestArgs,
+    MutationRegisterAttendenceArgs,
     Tokens,
     EventTime,
 } from '../generated/graphql';
@@ -9,7 +10,9 @@ import axios from 'axios';
 import FormData from 'form-data';
 import { ResolverContext } from '..';
 import guardAuthenticated from '../utils/guardAuthenticated';
+import adminOnly from '../utils/adminOnly';
 import { Document } from 'mongoose';
+import { withinRegistrationWindow } from '../utils/time';
 
 const getRequestBody = (grant_type: 'authorization_code' | 'refresh_token', payload: string) => {
     const body = new FormData();
@@ -78,6 +81,49 @@ export default {
                 lunch: null,
                 dinner: null,
                 [time.toLowerCase()]: event._id,
+            }).save();
+
+            return event;
+        },
+
+        registerAttendence: async (
+            _: unknown,
+            args: MutationRegisterAttendenceArgs,
+            context: ResolverContext,
+        ): Promise<Document> => {
+            guardAuthenticated(context);
+            adminOnly(context);
+
+            const event = await context.models.Event.findById(args.event_id);
+
+            if (!event) {
+                throw new Error('That event does not exist.');
+            }
+
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            withinRegistrationWindow(event!.get('time'));
+
+            const assignedEvent = await context.models.Assigned.findOne(
+                { user_id: args.user_id },
+                { $or: [{ breakfast: args.event_id }, { lunch: args.event_id }, { dinner: args.event_id }] },
+            );
+
+            if (!assignedEvent) {
+                throw new Error('User is not registered for this event.');
+            }
+
+            const attendedEvent = await context.models.Attended.findOne({
+                user_id: args.user_id,
+                event_id: args.event_id,
+            });
+
+            if (attendedEvent) {
+                throw new Error('User already registered attendence.');
+            }
+
+            await new context.models.Attended({
+                user_id: args.user_id,
+                event_id: args.event_id,
             }).save();
 
             return event;

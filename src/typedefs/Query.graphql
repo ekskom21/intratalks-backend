@@ -68,4 +68,7 @@ type Query {
 
     "Get your assigned events"
     assignedEvents: AssignedEvents
+
+    "Check if you have attended an event"
+    attendedEvent(event_id: ID!): Boolean!
 }
