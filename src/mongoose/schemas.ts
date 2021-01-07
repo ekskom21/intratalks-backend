@@ -50,5 +50,5 @@ export const eventDaySchema: Schema<UserInterest> = new mongoose.Schema({
 
 export const userAttendedSchema: Schema<UserAttended> = new mongoose.Schema({
     user_id: { type: String },
-    event: { type: mongoose.Schema.Types.ObjectId, ref: 'Event' },
+    event_id: { type: mongoose.Schema.Types.ObjectId, ref: 'Event' },
 });
