@@ -26,6 +26,6 @@ type Mutation {
     "Register interest for a specific event"
     registerInterest(event_id: String!): Event!
 
-    "Register the attendance of a user for a specific event"
+    "Register a users attendence for a specific event. You have to be an admin to use this"
     registerAttendence(user_id: String!, event_id: String!): Event!
 }
